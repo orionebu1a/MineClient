@@ -1,5 +1,10 @@
 package net.hackedclient.hack.AutoFarm;
 
+import baritone.api.BaritoneAPI;
+import baritone.api.pathing.goals.Goal;
+import baritone.api.pathing.goals.GoalBlock;
+import baritone.api.pathing.goals.GoalXZ;
+
 public class AutoFarmProcess implements Runnable {
     private volatile boolean isRunning = true;
     public AutoFarmHack autoFarmHack;
@@ -13,19 +18,12 @@ public class AutoFarmProcess implements Runnable {
 
     @Override
     public void run() {
-        /*try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }*/
+        BaritoneAPI.getSettings().allowSprint.value = true;
+        BaritoneAPI.getSettings().primaryTimeoutMS.value = 2000L;
         while (isRunning) {
-            /*try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            autoFarmHack.tick();
-            System.out.printf("%s\n", autoFarmHack.getState().toString());*/
+            //autoFarmHack.tick();
+            BaritoneAPI.getProvider().getPrimaryBaritone().getMineProcess().mineByName(autoFarmHack.getFindBlock().toString());
+            System.out.printf("%s\n", autoFarmHack.getState().toString());
         }
     }
 }

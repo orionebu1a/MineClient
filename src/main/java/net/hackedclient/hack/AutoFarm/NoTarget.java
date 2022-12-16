@@ -1,5 +1,7 @@
 package net.hackedclient.hack.AutoFarm;
 
+import baritone.api.BaritoneAPI;
+import baritone.api.pathing.goals.GoalBlock;
 import net.hackedclient.HackedClient;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
@@ -20,6 +22,7 @@ public class NoTarget implements State{
     public void process(State state) {
         this.newTargetBlock();
         if(autoFarmHack.getTargetBlock() != null){
+            BaritoneAPI.getProvider().getPrimaryBaritone().getCustomGoalProcess().setGoalAndPath(new GoalBlock(autoFarmHack.getTargetBlock().getX(), autoFarmHack.getTargetBlock().getY(), autoFarmHack.getTargetBlock().getZ()));
             autoFarmHack.setState(new GoToTarget(autoFarmHack));
         }
     }

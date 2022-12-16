@@ -1,5 +1,7 @@
 package net.hackedclient.hack.AutoFarm;
 
+import baritone.api.BaritoneAPI;
+import baritone.api.pathing.goals.GoalBlock;
 import net.hackedclient.HackedClient;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Material;
@@ -16,6 +18,16 @@ class GoToTarget implements State{
 
     @Override
     public void process(State state) {
+        //BaritoneAPI.getProvider().getPrimaryBaritone().getMineProcess().
+        if(Math.sqrt(
+                Math.pow(autoFarmHack.getTargetBlock().getX() - HackedClient.MC.player.getPos().getX(), 2) +
+                        Math.pow(autoFarmHack.getTargetBlock().getZ() - HackedClient.MC.player.getPos().getZ(), 2) +
+                                Math.pow(autoFarmHack.getTargetBlock().getY() - HackedClient.MC.player.getPos().getY(), 2))
+                < autoFarmHack.distanceOfCollection){
+            autoFarmHack.setTargetBlock(null);
+            HackedClient.blockCounter = HackedClient.blockCounter + 1;
+            autoFarmHack.setState(new NoTarget(autoFarmHack));
+        }
         /*createDirection();
         turnToTarget();
         System.out.printf("%d %d %d\n", autoFarmHack.getTargetBlock().getX(), autoFarmHack.getTargetBlock().getY(), autoFarmHack.getTargetBlock().getZ());

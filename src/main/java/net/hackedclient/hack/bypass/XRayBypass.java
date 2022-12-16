@@ -77,19 +77,26 @@ public class XRayBypass extends Hack implements RenderWorldLastEventListener,
     }
 
     public void sendInteractionPackets(BlockPos blockPos) {//
-        if(HACKED_CLIENT.getHax().xRayBypassHack.counter == 10){
+        /*if(HACKED_CLIENT.getHax().xRayBypassHack.counter == 10){
             HackedClient.INSTANCE.sendPacket(new PlayerActionC2SPacket(
                     PlayerActionC2SPacket.Action.ABORT_DESTROY_BLOCK, blockPos, Direction.SOUTH));
             HACKED_CLIENT.getHax().xRayBypassHack.counter = 0;
             System.out.printf("First packet\n");
+        }*/
+        /*if(HackedClient.MC.options.keyAttack.isPressed()){
+
         }
         else{
             HackedClient.INSTANCE.sendPacket(new PlayerActionC2SPacket(
                     PlayerActionC2SPacket.Action.ABORT_DESTROY_BLOCK, blockPos, Direction.SOUTH));
-            System.out.printf("Second packet\n");
-        }
-        System.out.printf("%d, %d, %d\n", blockPos.getX(), blockPos.getY(), blockPos.getZ() );
+        }*/
+        HackedClient.INSTANCE.sendPacket(new PlayerActionC2SPacket(
+                PlayerActionC2SPacket.Action.ABORT_DESTROY_BLOCK, blockPos, Direction.SOUTH));
+        System.out.printf("Second packet\n");
+        System.out.printf("%d, %d, %d\n", blockPos.getX(), blockPos.getY(), blockPos.getZ());
+        System.out.printf("%d, %d, %d\n", blockPos.getX(), blockPos.getY(), blockPos.getZ());
     }
+
 
     public void addBlockData(BlockState iBlockState, BlockPos blockPos) {
         if (HACKED_CLIENT.getHax().xRayHack.isVisible(iBlockState.getBlock())) {

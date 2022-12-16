@@ -15,7 +15,7 @@ public class AutoFarmHack extends Hack {
     public double delta = 0.01;
     private BlockPos targetBlock;
     private BlockPos clearBlock;
-    private String findBlock = "Block{minecraft:iron_ore}";
+    private String findBlock = /*"Block{minecraft:iron_ore}"*/"iron_ore";
     private State state;
     private AutoFarmProcess autoFarmProcess;
     private Thread autoFarmThread;
