@@ -1,0 +1,157 @@
+package adris.altoclef.util;
+
+import adris.altoclef.Debug;
+import adris.altoclef.TaskCatalogue;
+import adris.altoclef.util.csharpisbetter.Util;
+import net.minecraft.item.Item;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+public class ItemTarget {
+
+    // Want to avoid int max to prevent overflow or something
+    private static final int BASICALLY_INFINITY = 99999999;
+    public static ItemTarget EMPTY = new ItemTarget(new Item[0], 0);
+    private Item[] _itemMatches;
+    private int _targetCount;
+    private String _catalogueName = null;
+    private boolean _infinite = false;
+
+    public ItemTarget(Item[] items, int targetCount) {
+        _itemMatches = items;
+        _targetCount = targetCount;
+    }
+
+    public ItemTarget(String catalogueName, int targetCount) {
+        if (catalogueName == null) return;
+        _catalogueName = catalogueName;
+        _itemMatches = TaskCatalogue.getItemMatches(catalogueName);
+        _targetCount = targetCount;
+        if (_itemMatches == null) {
+            Debug.logError("Invalid catalogue name for item target: \"" + catalogueName + "\". Something isn't robust!");
+        }
+    }
+
+    public ItemTarget(String catalogueName) {
+        this(catalogueName, BASICALLY_INFINITY);
+        _infinite = true;
+    }
+
+    public ItemTarget(Item item, int targetCount) {
+        this(new Item[]{item}, targetCount);
+    }
+
+    public ItemTarget(Item[] items) {
+        this(items, BASICALLY_INFINITY);
+        _infinite = true;
+    }
+
+    public ItemTarget(Item item) {
+        this(item, BASICALLY_INFINITY);
+        _infinite = true;
+    }
+
+    public ItemTarget(ItemTarget toCopy, int newCount) {
+        _itemMatches = new Item[toCopy._itemMatches.length];
+        System.arraycopy(toCopy._itemMatches, 0, _itemMatches, 0, toCopy._itemMatches.length);
+        _catalogueName = toCopy._catalogueName;
+        _targetCount = newCount;
+        _infinite = toCopy._infinite;
+    }
+
+    public static Item[] getMatches(ItemTarget... targets) {
+        Set<Item> result = new HashSet<>();
+        for (ItemTarget target : targets) {
+            result.addAll(Arrays.asList(target.getMatches()));
+        }
+        return Util.toArray(Item.class, result);
+    }
+
+    public Item[] getMatches() {
+        return _itemMatches;
+    }
+
+    public int getTargetCount() {
+        return _targetCount;
+    }
+
+    public boolean matches(Item item) {
+        for (Item match : _itemMatches) {
+            if (match == null) continue;
+            if (match.equals(item)) return true;
+        }
+        return false;
+    }
+
+    public boolean isCatalogueItem() {
+        return _catalogueName != null;
+    }
+
+    public String getCatalogueName() {
+        return _catalogueName;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof ItemTarget) {
+            ItemTarget other = (ItemTarget) obj;
+            if (_infinite) {
+                if (!other._infinite) return false;
+            } else {
+                // Neither are infinite
+                if (_targetCount != other._targetCount) return false;
+            }
+            if ((other._itemMatches == null) != (_itemMatches == null)) return false;
+            boolean isNull = (other._itemMatches == null);
+            if (isNull) return true;
+            if (_itemMatches.length != other._itemMatches.length) return false;
+            for (int i = 0; i < _itemMatches.length; ++i) {
+                if (other._itemMatches[i] == null) {
+                    if ((other._itemMatches[i] == null) != (_itemMatches[i] == null)) return false;
+                } else {
+                    if (!other._itemMatches[i].equals(_itemMatches[i])) return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isEmpty() {
+        return _itemMatches == null || _itemMatches.length == 0;
+    }
+
+    @Override
+    public String toString() {
+
+        StringBuilder result = new StringBuilder();
+        if (isEmpty()) {
+            result.append("(empty)");
+        } else if (isCatalogueItem()) {
+            result.append(_catalogueName);
+        } else {
+            result.append("[");
+            int counter = 0;
+            for (Item item : _itemMatches) {
+                if (item == null) {
+                    result.append("(null??)");
+                } else {
+                    result.append(ItemUtil.trimItemName(item.getTranslationKey()));
+                }
+                if (++counter != _itemMatches.length) {
+                    result.append(",");
+                }
+            }
+            result.append("]");
+        }
+        if (!_infinite && !isEmpty()) {
+            result.append(" x ").append(_targetCount);
+        }
+
+        return result.toString();
+    }
+
+
+}

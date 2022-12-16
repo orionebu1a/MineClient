@@ -1,0 +1,15 @@
+pluginManagement {
+    repositories {
+        maven {
+            name = "Fabric"
+            url = "https://maven.fabricmc.net/"
+        }
+        gradlePluginPortal()
+    }
+}
+
+sourceControl {
+    gitRepository(URI.create("https://gitlab.com/adrisj7/fabritone.git")) {
+        producesModule("baritone:baritone")
+    }
+}

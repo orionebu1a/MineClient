@@ -1,0 +1,26 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.hackedclient.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+  ],
+  "client": [
+    "AbstractBlockStateMixin",
+    "BlockEntityRenderDispatcherMixin",
+    "BlockMixin",
+    "BlockModelRendererMixin",
+    "ChunkOcclusionGraphBuilderMixin",
+    "ClientConnectionMixin",
+    "ClientPlayerEntityMixin",
+    "FluidRendererMixin",
+    "GameMenuScreenMixin",
+    "GameOptionsMixin",
+    "GameHudMixin",
+    "TerrainRenderContextMixin",
+    "WorldRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

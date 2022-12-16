@@ -1,0 +1,17 @@
+PlayerActionC2SPacket.Action.STOP_DESTROY_BLOCK, blockPos, Direction.SOUTH - прекратить ломать блок
+PlayerActionC2SPacket.Action.ABORT_DESTROY_BLOCK, blockPos, Direction.SOUTH - прервать ломать блок
+PlayerActionC2SPacket.Action.START_DESTROY_BLOCK, blockPos, Direction.SOUTH - начать ломать блок
+mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, Mode.STOP_SPRINTING)) - прекратить бег игрока
+mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(x, y + 0.65, z, false)) - установить позицию игрока(для полётов и тп)
+mc.player.networkHandler.sendPacket(new VehicleMoveC2SPacket(target)) - двигать лодки, вагонетки и др.
+mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, Mode.START_FALL_FLYING)) - для полёта применяется, проверить
+PlayerMoveC2SPacket.PositionOnly(MC.player.getX(), MC.player.getY(), MC.player.getZ(), true)) - установить только позицию игрока (фейкДжамп)
+mc.player.networkHandler.sendPacket(new UpdateSelectedSlotC2SPacket(slot - 46))
+mc.player.networkHandler.sendPacket(new PlayerActionC2SPacket(Action.SWAP_ITEM_WITH_OFFHAND, BlockPos.ORIGIN, Direction.DOWN));
+mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(mc.player.getYaw(), 90, mc.player.isOnGround()));
+mc.player.networkHandler.sendPacket(new PlayerInteractItemC2SPacket(Hand.MAIN_HAND, 0));
+MC.player.networkHandler.sendPacket(new ClientCommandC2SPacket(MC.player, mode)) крадется, бежит, падает и т.д.
+MC.player.networkHandler.sendPacket(new HandSwingC2SPacket(Hand.MAIN_HAND));
+mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, Mode.PRESS_SHIFT_KEY)) нажать шифт
+mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, Mode.RELEASE_SHIFT_KEY)) отпустить шифт
+mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(true)) на земле или нет
